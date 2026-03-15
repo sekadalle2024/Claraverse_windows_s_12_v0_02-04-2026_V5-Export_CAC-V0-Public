@@ -4,14 +4,18 @@ Lors des futures évolutions du traitement des réponses n8n dans Claraverse (sc
 
 ## 1. La fragilité du formatage LLM (Markdown)
 Les modèles de langage (LLM) derrière l'endpoint n8n ne sont pas déterministes à 100%. Bien que promptés pour retourner des tableaux stricts (`| Colonne 1 | Colonne 2 |`), ils peuvent :
-- Omettre des colonnes.
+- Omettre des colonnes ou les délimiteurs `|` finaux.
 - Ajouter des espaces autour des pipes `|`.
 - Générer des lignes incomplètes.
-- Numéroter des listes d'items en pensant remplir un tableau, ce qui génère des cellules numérotées isolées.
+- Numéroter des listes d'items en pensant remplir un tableau (générant des `<tr>` à une seule cellule).
 
-**Règle d'or :** Ne jamais parser la réponse en partant du principe que la structure est parfaite. Toujours prévoir des `try/catch` et des méthodes de nettoyage laxistes mais sécurisées (comme `cleanEmptyRowsForReport`).
+**Règle d'or :** Le script `Flowise.js` (V17.2) gère désormais ces cas via :
+1. Un **padding automatique** pour compléter les colonnes manquantes.
+2. Une suppression des lignes si seule la première colonne est remplie par un numéro.
 
-## 2. Ne pas lier la logique à une structure DOM rigide
+## 2. Intégrité des données et édition manuelle
+Pour que l'utilisateur puisse modifier manuellement des colonnes initialement vides (comme "Commentaire"), les cellules `<td>` **doivent exister physiquement** dans le DOM.
+C'est pourquoi le parseur ne doit plus filtrer les cellules vides. Si le HTML ne contient pas le bon nombre de `<td>`, l'interface pourra paraître décalée ou incomplète.
 Dans la V17.1, la détection des rapports cherchait le mot-clé ("Synthèse", "Rapport définitif", etc.) **exclusivement** dans une cellule d'en-tête `<th>` intitulée "Description".
 - Si le LLM retournait un tableau sans header explicite (uniquement des `<td>`).
 - Si n8n encapsulait la donnée différemment.

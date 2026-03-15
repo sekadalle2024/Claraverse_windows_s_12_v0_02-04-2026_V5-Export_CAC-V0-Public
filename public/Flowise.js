@@ -1115,14 +1115,23 @@ ${displayHTML}
     thead.appendChild(headerTr);
     table.appendChild(thead);
 
+    const headerCount = cleanHeaderCells.length;
     const tbody = document.createElement("tbody");
 
     dataRows.forEach((rowText, rowIndex) => {
       const tr = document.createElement("tr");
       tr.className = rowIndex % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800";
 
-      let cells = rowText.split("|").filter(cell => cell.trim() !== '');
+      // ⭐ FIX V17.2 ROBUST PADDING:
+      // 1. Nettoyer les pipes de bordure (|) avant de split
+      let rowContent = rowText.trim();
+      if (rowContent.startsWith('|')) rowContent = rowContent.substring(1);
+      if (rowContent.endsWith('|')) rowContent = rowContent.substring(0, rowContent.length - 1);
 
+      // 2. Split sans filter pour garder les cellules vides
+      let cells = rowContent.split("|");
+
+      // 3. Créer les cellules existantes
       cells.forEach((cellText) => {
         const td = document.createElement("td");
         td.className = "px-4 py-3 border-b border-gray-200 dark:border-gray-700 text-sm";
@@ -1139,11 +1148,19 @@ ${displayHTML}
           link.rel = "noopener noreferrer";
           td.appendChild(link);
         } else {
-          td.textContent = trimmedText || "-";
+          td.textContent = trimmedText || ""; // On laisse vide si vide (pas de "-")
         }
 
         tr.appendChild(td);
       });
+
+      // 4. ⭐ PADDING : Si le LLM a oublié des colonnes (ex: Recommandation), on les rajoute vides
+      while (tr.children.length < headerCount) {
+        const emptyTd = document.createElement("td");
+        emptyTd.className = "px-4 py-3 border-b border-gray-200 dark:border-gray-700 text-sm";
+        emptyTd.textContent = "";
+        tr.appendChild(emptyTd);
+      }
 
       if (tr.children.length > 0) tbody.appendChild(tr);
     });
