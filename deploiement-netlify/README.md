@@ -13,6 +13,11 @@ Ce dossier contient tous les scripts et la documentation nécessaires pour dépl
    - Vérifications automatiques
    - Gestion des erreurs
 
+2. **`../DEPLOYER_NETLIFY.bat`** 🚀 (One-Click)
+   - Situé à la racine du projet
+   - Lance le déploiement complet en un seul clic
+   - Idéal pour les mises à jour récurrentes
+
 2. **`deploy-rapide.ps1`**
    - Déploiement rapide (sans rebuild)
    - Utilise le dossier dist/ existant
@@ -44,7 +49,11 @@ Ce dossier contient tous les scripts et la documentation nécessaires pour dépl
 
 ## 🚀 Utilisation Rapide
 
-### Déploiement Complet (Recommandé)
+### Déploiement UN CLIC (Le plus simple)
+
+Double-cliquez sur `DEPLOYER_NETLIFY.bat` à la racine du projet.
+
+### Déploiement via PowerShell (Complet)
 
 ```powershell
 cd deploiement-netlify

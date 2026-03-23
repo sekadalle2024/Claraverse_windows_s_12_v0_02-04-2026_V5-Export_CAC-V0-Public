@@ -25,9 +25,15 @@ Backend Python pour l'application Clara, basé sur FastAPI.
 - Export de résultats
 
 #### 3. États Financiers SYSCOHADA
-- Génération d'états financiers
-- Conformité SYSCOHADA
-- Analyse de balances comptables
+- **Génération d'états financiers** au format liasse officielle
+- **Conformité SYSCOHADA** Révisé
+- **Analyse de balances comptables** multi-exercices (N, N-1, N-2)
+- **Format liasse officielle** avec 2 colonnes (Exercice N et N-1)
+- **Tableau des Flux de Trésorerie (TFT)** - Méthode indirecte
+- **Annexes calculables** (13 notes)
+- **États de contrôle** exhaustifs (16 contrôles)
+- **Export Excel** vers liasse officielle vierge
+- **Flexibilité multi-entreprises** avec différents plans comptables
 
 #### 4. Échantillonnage Audit
 - Calculs d'échantillonnage statistique
@@ -172,12 +178,19 @@ POST /pandas/analyze               → Analyse de données
 POST /pandas/agent                 → Agent Pandas avec LLM
 ```
 
-### Autres
+### États Financiers
 ```
-POST /word/export                  → Export Word
-POST /speech-to-text               → Transcription audio
-POST /text-to-speech               → Synthèse vocale
+POST /etats-financiers/process-excel  → Générer états financiers (format liasse)
+POST /export-liasse/generer            → Export vers liasse Excel officielle
 ```
+
+**Fichiers clés**:
+- `etats_financiers.py` - Module principal
+- `etats_financiers_v2.py` - Format liasse officielle
+- `generer_etats_liasse.py` - Script autonome
+- `tableau_flux_tresorerie.py` - TFT
+- `annexes_liasse.py` - Annexes
+- `export_liasse.py` - Export Excel
 
 ## 🚀 Déploiement
 
@@ -211,34 +224,51 @@ pytest
 # Tests avec coverage
 pytest --cov=.
 
-# Tests spécifiques
-pytest test_etats_financiers.py
+# Tests états financiers
+cd py_backend
+conda run -n claraverse_backend python test_etats_financiers.py
+conda run -n claraverse_backend python test_tft_standalone.py
+conda run -n claraverse_backend python test_annexes_standalone.py
+
+# Générer états financiers format liasse
+conda run -n claraverse_backend python generer_etats_liasse.py
 ```
 
 ## 📁 Structure du Projet
 
 ```
 py_backend/
-├── main.py                    # Point d'entrée FastAPI
-├── Dockerfile                 # Configuration Docker
-├── requirements.txt           # Dépendances Python
-├── README.md                  # Ce fichier
+├── main.py                         # Point d'entrée FastAPI
+├── Dockerfile                      # Configuration Docker
+├── requirements.txt                # Dépendances Python
+├── README.md                       # Ce fichier
 │
-├── pandas_api.py              # API Pandas
-├── pandas_agent.py            # Agent Pandas avec LLM
-├── pandas_lead.py             # Lead Balance
+├── pandas_api.py                   # API Pandas
+├── pandas_agent.py                 # Agent Pandas avec LLM
+├── pandas_lead.py                  # Lead Balance
 │
-├── etats_financiers.py        # États financiers SYSCOHADA
-├── echantillonnage.py         # Échantillonnage audit
+├── etats_financiers.py             # États financiers SYSCOHADA
+├── etats_financiers_v2.py          # Format liasse officielle
+├── generer_etats_liasse.py         # Script autonome génération
+├── tableau_flux_tresorerie.py      # TFT (méthode indirecte)
+├── annexes_liasse.py               # Annexes (13 notes)
+├── annexes_html.py                 # Génération HTML annexes
+├── export_liasse.py                # Export Excel liasse
+├── correspondances_syscohada.json  # Mapping comptes → postes
+├── structure_liasse_complete.json  # Structure complète liasse
 │
-├── word_export.py             # Export Word
-├── Speech2Text.py             # Transcription audio
-├── Text2Speech.py             # Synthèse vocale
+├── echantillonnage.py              # Échantillonnage audit
+├── word_export.py                  # Export Word
+├── Speech2Text.py                  # Transcription audio
+├── Text2Speech.py                  # Synthèse vocale
 │
-├── gdrive_proxy.py            # Proxy Google Drive
-├── n8n_proxy.py               # Proxy N8N
+├── gdrive_proxy.py                 # Proxy Google Drive
+├── n8n_proxy.py                    # Proxy N8N
 │
-└── lib/                       # Bibliothèques
+├── test_*.py                       # Tests unitaires
+├── BALANCES_N_N1_N2.xlsx          # Fichier test multi-exercices
+│
+└── lib/                            # Bibliothèques
 ```
 
 ## 🤝 Contribution
@@ -267,7 +297,23 @@ Pour toute question : [Créer une issue](https://github.com/sekadalle2024/Back-e
 
 ---
 
-**Version** : 0.1.0  
-**Date** : 3 mars 2026  
+**Version** : 1.0.0  
+**Date** : 22 mars 2026  
 **Python** : 3.11+  
 **Framework** : FastAPI
+
+## 📚 Documentation Complémentaire
+
+### États Financiers
+- `Doc_Etat_Fin/00_INDEX_COMPLET.md` - Index complet
+- `GUIDE_UTILISATEUR_ETATS_LIASSE.md` - Guide utilisateur
+- `FLEXIBILITE_MULTI_ENTREPRISES.md` - Guide technique
+- `RECAPITULATIF_CORRECTION_FORMAT_LIASSE.md` - Récapitulatif
+
+### Lead Balance
+- `Doc_Lead_Balance/00_INDEX.md` - Index complet
+- `Doc_Lead_Balance/README.md` - Documentation
+
+### Déploiement
+- `README_KOYEB.md` - Déploiement Koyeb
+- `00_INDEX_DEPLOIEMENT_COMPLET.md` - Guide complet

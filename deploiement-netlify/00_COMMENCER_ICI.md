@@ -6,7 +6,11 @@ Ce dossier contient tout ce dont vous avez besoin pour déployer ClaraVerse sur 
 
 ## 🚀 Déploiement Rapide (2 minutes)
 
-### Si vous êtes pressé :
+### Option 1 : Déploiement UN CLIC (Recommandé) ✨
+
+Double-cliquez sur : **`DEPLOYER_NETLIFY.bat`** (à la racine du projet)
+
+### Option 2 : Via PowerShell
 
 ```powershell
 # 1. Aller dans le dossier
@@ -25,6 +29,7 @@ cd deploiement-netlify
 
 | Script | Usage | Durée |
 |--------|-------|-------|
+| **`../DEPLOYER_NETLIFY.bat`** | **One-Click Deployment** | **8-10 min** |
 | **`deploy.ps1`** ⭐ | Déploiement complet | 8-12 min |
 | **`deploy-rapide.ps1`** | Déploiement rapide | 3-5 min |
 | **`build-only.ps1`** | Build uniquement | 2-4 min |

@@ -12,6 +12,15 @@ Vous êtes prêt à redéployer les mises à jour de ClaraVerse
 sur Netlify. Tout a été préparé pour vous !
 
 
+🚀 DÉPLOIEMENT EN 1 CLIC :
+═══════════════════════════════════════════════════════════════
+
+Double-cliquez sur : DEPLOYER_NETLIFY.bat (à la racine)
+
+C'est la méthode la plus simple ! Elle s'occupe du build et 
+de l'envoi vers la production automatiquement.
+
+
 ✅ STATUT : PRÊT À DÉPLOYER
 ═══════════════════════════════════════════════════════════════
 

@@ -1432,7 +1432,7 @@ def generate_section_html(section_id: str, title: str, postes: Dict, total: floa
 async def process_excel(request: ExcelUploadRequest):
     """
     Traite un fichier Excel de balance et génère les états financiers SYSCOHADA.
-    Si une balance N-1 est fournie, calcule également le TFT.
+    Si une balance N-1 est fournie, calcule également le TFT et utilise le format liasse officielle.
     """
     try:
         logger.info(f"📥 Réception fichier: {request.filename}")
@@ -1441,57 +1441,180 @@ async def process_excel(request: ExcelUploadRequest):
         file_content = base64.b64decode(request.file_base64)
         logger.info(f"📂 Fichier décodé: {len(file_content)} bytes")
         
-        # Lire le fichier Excel (Balance N)
+        # Lire le fichier Excel et détecter les onglets
         excel_file = io.BytesIO(file_content)
-        balance_df = pd.read_excel(excel_file, sheet_name=0)
-        logger.info(f"📊 Balance N chargée: {len(balance_df)} lignes")
+        excel_data = pd.ExcelFile(excel_file)
+        sheet_names = excel_data.sheet_names
+        logger.info(f"📋 Onglets détectés: {sheet_names}")
         
         # Charger le tableau de correspondance
         correspondances = load_tableau_correspondance()
         
-        # Traiter la balance et générer les états financiers
-        results = process_balance_to_etats_financiers(balance_df, correspondances)
+        # Variable pour stocker les balances
+        balance_df = None
+        balance_n1_df = None
         
-        # Si balance N-1 fournie, calculer le TFT
-        if request.file_n1_base64:
+        # DÉTECTION AUTOMATIQUE DES ONGLETS
+        # Chercher les onglets "Balance N" et "Balance N-1" (avec variations)
+        balance_n_patterns = ["Balance N", "balance n", "BALANCE N", "Balance N (", "balance_n"]
+        balance_n1_patterns = ["Balance N-1", "balance n-1", "BALANCE N-1", "Balance N-1 (", "balance_n1", "balance_n-1"]
+        
+        # Trouver l'onglet Balance N
+        for sheet in sheet_names:
+            if any(pattern in sheet for pattern in balance_n_patterns):
+                balance_df = pd.read_excel(excel_data, sheet_name=sheet)
+                logger.info(f"✅ Balance N trouvée dans l'onglet '{sheet}': {len(balance_df)} lignes")
+                break
+        
+        # Trouver l'onglet Balance N-1
+        for sheet in sheet_names:
+            if any(pattern in sheet for pattern in balance_n1_patterns):
+                balance_n1_df = pd.read_excel(excel_data, sheet_name=sheet)
+                logger.info(f"✅ Balance N-1 trouvée dans l'onglet '{sheet}': {len(balance_n1_df)} lignes")
+                break
+        
+        # Si pas d'onglets spécifiques trouvés, utiliser le premier onglet comme Balance N
+        if balance_df is None:
+            balance_df = pd.read_excel(excel_data, sheet_name=0)
+            logger.info(f"📊 Balance N chargée depuis le premier onglet: {len(balance_df)} lignes")
+        
+        # Si balance N-1 fournie en tant que fichier séparé (ancien comportement)
+        if request.file_n1_base64 and balance_n1_df is None:
             try:
-                logger.info(f"📥 Réception balance N-1: {request.filename_n1}")
+                logger.info(f"📥 Réception balance N-1 (fichier séparé): {request.filename_n1}")
                 file_n1_content = base64.b64decode(request.file_n1_base64)
                 excel_file_n1 = io.BytesIO(file_n1_content)
                 balance_n1_df = pd.read_excel(excel_file_n1, sheet_name=0)
                 logger.info(f"📊 Balance N-1 chargée: {len(balance_n1_df)} lignes")
+            except Exception as e:
+                logger.warning(f"⚠️ Erreur chargement balance N-1: {e}")
+        
+        # Traiter selon le format
+        if balance_n1_df is not None:
+            # FORMAT LIASSE OFFICIELLE (avec N et N-1)
+            logger.info("📋 Utilisation du format liasse officielle (2 colonnes)")
+            from etats_financiers_v2 import (
+                process_balance_to_liasse_format,
+                generate_section_html_liasse,
+                generate_css_liasse
+            )
+            from tableau_flux_tresorerie_v2 import calculer_tft_liasse
+            from annexes_liasse_complete import calculer_annexes_completes
+            from html_liasse_complete import generate_tft_html_liasse, generate_annexes_html_liasse
+            
+            # Traiter les balances au format liasse
+            results_liasse = process_balance_to_liasse_format(balance_df, balance_n1_df, correspondances)
+            
+            # Calculer le TFT au format liasse (N et N-1)
+            try:
+                resultat_net_n = next((p['montant_n'] for p in results_liasse['compte_resultat'] if p['ref'] == 'XI'), 0)
+                resultat_net_n1 = next((p['montant_n1'] for p in results_liasse['compte_resultat'] if p['ref'] == 'XI'), 0)
                 
-                # Calculer le TFT
-                resultat_net = results['totaux']['resultat_net']
-                tft_data = calculer_tft(balance_df, balance_n1_df, resultat_net)
-                results['tft'] = tft_data
-                logger.info("✅ TFT calculé avec succès")
+                # Chercher Balance N-2 si disponible
+                balance_n2_df = None
+                balance_n2_patterns = ["Balance N-2", "balance n-2", "BALANCE N-2", "Balance N-2 (", "balance_n2"]
+                for sheet in sheet_names:
+                    if any(pattern in sheet for pattern in balance_n2_patterns):
+                        balance_n2_df = pd.read_excel(excel_data, sheet_name=sheet)
+                        logger.info(f"✅ Balance N-2 trouvée dans l'onglet '{sheet}'")
+                        break
+                
+                tft_data = calculer_tft_liasse(balance_df, balance_n1_df, balance_n2_df, resultat_net_n, resultat_net_n1)
+                results_liasse['tft'] = tft_data
+                logger.info("✅ TFT calculé avec succès (format liasse N et N-1)")
             except Exception as e:
                 logger.warning(f"⚠️ Erreur calcul TFT: {e}")
-                # Continuer sans TFT
+                import traceback
+                traceback.print_exc()
+            
+            # Calculer les annexes complètes au format liasse
+            try:
+                annexes_data = calculer_annexes_completes(
+                    results_liasse['bilan_actif'],
+                    results_liasse['bilan_actif'],  # N-1 est déjà dans les données
+                    results_liasse['bilan_passif'],
+                    results_liasse['bilan_passif'],
+                    results_liasse['compte_resultat'],
+                    results_liasse['compte_resultat']
+                )
+                results_liasse['annexes'] = annexes_data
+                logger.info("✅ Annexes complètes calculées avec succès")
+            except Exception as e:
+                logger.warning(f"⚠️ Erreur calcul annexes: {e}")
+                import traceback
+                traceback.print_exc()
+            
+            # Générer le HTML au format liasse
+            html = generate_css_liasse()
+            html += "<div class='etats-fin-container'>"
+            html += "<div class='etats-fin-header'><h2>📊 États Financiers SYSCOHADA Révisé</h2><p>Format Liasse Officielle</p></div>"
+            
+            # Bilan
+            html += generate_section_html_liasse("bilan_actif", "🏢 BILAN - ACTIF", results_liasse['bilan_actif'])
+            html += generate_section_html_liasse("bilan_passif", "🏛️ BILAN - PASSIF", results_liasse['bilan_passif'])
+            
+            # Compte de Résultat
+            html += generate_section_html_liasse("compte_resultat", "📊 COMPTE DE RÉSULTAT", results_liasse['compte_resultat'])
+            
+            # TFT au format liasse (si disponible)
+            if 'tft' in results_liasse and results_liasse['tft']:
+                html += generate_tft_html_liasse(results_liasse['tft'])
+            
+            # Annexes au format liasse (si disponibles)
+            if 'annexes' in results_liasse and results_liasse['annexes']:
+                html += generate_annexes_html_liasse(results_liasse['annexes'])
+            
+            html += "</div>"
+            
+            # Ajouter le script pour les accordéons
+            html += """
+            <script>
+            document.querySelectorAll('.section-header-ef').forEach(header => {
+                header.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    content.classList.toggle('active');
+                });
+            });
+            </script>
+            """
+            
+            message_parts = [request.filename]
+            if request.filename_n1:
+                message_parts.append(request.filename_n1)
+            message = f"États financiers générés au format liasse officielle à partir de {' et '.join(message_parts)}"
+            
+            return EtatsFinanciersResponse(
+                success=True,
+                message=message,
+                results=results_liasse,
+                html=html
+            )
         
-        # Calculer les annexes
-        try:
-            annexes_data = calculer_annexes(results)
-            results['annexes'] = annexes_data
-            logger.info("✅ Annexes calculées avec succès")
-        except Exception as e:
-            logger.warning(f"⚠️ Erreur calcul annexes: {e}")
-            # Continuer sans annexes
-        
-        # Générer le HTML
-        html = generate_etats_financiers_html(results)
-        
-        message = f"États financiers générés avec succès à partir de {request.filename}"
-        if request.file_n1_base64 and 'tft' in results:
-            message += f" et {request.filename_n1} (avec TFT)"
-        
-        return EtatsFinanciersResponse(
-            success=True,
-            message=message,
-            results=results,
-            html=html
-        )
+        else:
+            # FORMAT ANCIEN (une seule colonne)
+            logger.info("📋 Utilisation du format ancien (1 colonne)")
+            results = process_balance_to_etats_financiers(balance_df, correspondances)
+            
+            # Calculer les annexes
+            try:
+                annexes_data = calculer_annexes(results)
+                results['annexes'] = annexes_data
+                logger.info("✅ Annexes calculées avec succès")
+            except Exception as e:
+                logger.warning(f"⚠️ Erreur calcul annexes: {e}")
+            
+            # Générer le HTML
+            html = generate_etats_financiers_html(results)
+            
+            message = f"États financiers générés avec succès à partir de {request.filename}"
+            
+            return EtatsFinanciersResponse(
+                success=True,
+                message=message,
+                results=results,
+                html=html
+            )
         
     except Exception as e:
         logger.error(f"❌ Erreur lors du traitement: {e}", exc_info=True)
