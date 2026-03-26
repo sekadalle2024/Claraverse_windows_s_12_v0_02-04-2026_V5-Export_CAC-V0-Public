@@ -29,7 +29,7 @@
   //http://localhost:5678/webhook/htlm_processor
   // --- CONFIGURATION CENTRALE ---
   const CONFIG = {
-    N8N_ENDPOINT_URL: "https://j17rkv4c.rpcld.cc/webhook/htlm_processor",
+    N8N_ENDPOINT_URL: "https://t22wtwxl.rpcld.app/webhook/htlm_processor",
     DEBUG_LOG_HTML: true, // ⭐ Toujours logger le HTML dans la console (systématique)
     SELECTORS: {
       CHAT_TABLES:
