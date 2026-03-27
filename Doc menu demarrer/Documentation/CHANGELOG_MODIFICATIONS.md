@@ -139,3 +139,105 @@ Aucune modification prévue pour le moment.
 ---
 
 *Pour plus de détails, consulter les fichiers de documentation dans `Doc menu demarrer/Documentation/`*
+
+
+---
+
+## [27 Mars 2026] - Modification E-CIA Exam Part 1
+
+### Ajouté
+- Script `update_ecia_exam_part1.py` pour automatiser les modifications
+- Documentation `MODIFICATION_E_CIA_EXAM_27_MARS_2026.md`
+- Fichier de démarrage rapide `00_MODIFICATION_E_CIA_EXAM_27_MARS_2026.txt`
+
+### Modifié
+- Mode "Normal" renommé en "Cours" dans le tableau MODES
+- 45 commandes mises à jour : `[Command] = cours` → `[Command] = Cours CIA`
+- INDEX_COMPLET.md mis à jour avec les nouveaux fichiers
+
+### Impact
+- Tous les logiciels utilisant le mode par défaut affichent maintenant "Cours" au lieu de "Normal"
+- E-CIA Exam Part 1 génère maintenant des commandes avec `[Command] = Cours CIA`
+
+### Fichiers modifiés
+- `src/components/Clara_Components/DemarrerMenu.tsx`
+- `Doc menu demarrer/INDEX_COMPLET.md`
+
+### Fichiers créés
+- `Doc menu demarrer/Scripts/update_ecia_exam_part1.py`
+- `Doc menu demarrer/Documentation/MODIFICATION_E_CIA_EXAM_27_MARS_2026.md`
+- `00_MODIFICATION_E_CIA_EXAM_27_MARS_2026.txt`
+
+
+
+---
+
+## [27 Mars 2026] - Suppression modes Demo, Avancé, Manuel pour E-CIA Exam Part 1
+
+### Ajouté
+- Tableau `ECIA_MODES` avec uniquement le mode "Cours"
+- Logique conditionnelle dans `SubMenuPortal` pour détecter E-CIA Exam
+- Script `remove_modes_ecia_exam.py` pour automatiser les modifications
+- Documentation `SUPPRESSION_MODES_E_CIA_EXAM_27_MARS_2026.md`
+- Fichier de démarrage rapide `00_SUPPRESSION_MODES_E_CIA_EXAM_27_MARS_2026.txt`
+
+### Modifié
+- `SubMenuPortal` : Ajout de la détection automatique basée sur "Cours CIA"
+- Logique de sélection des modes : `etape.modes || (etape.command?.includes('Cours CIA') ? ECIA_MODES : MODES)`
+
+### Supprimé (pour E-CIA Exam uniquement)
+- Mode "Demo" 
+- Mode "Avancé"
+- Mode "Manuel"
+
+### Impact
+- E-CIA Exam Part 1 affiche uniquement le mode "Cours"
+- Les autres logiciels continuent d'utiliser tous les modes globaux
+- Détection automatique via le contenu de la commande
+
+### Fichiers modifiés
+- `src/components/Clara_Components/DemarrerMenu.tsx`
+
+### Fichiers créés
+- `Doc menu demarrer/Scripts/remove_modes_ecia_exam.py`
+- `Doc menu demarrer/Documentation/SUPPRESSION_MODES_E_CIA_EXAM_27_MARS_2026.md`
+- `00_SUPPRESSION_MODES_E_CIA_EXAM_27_MARS_2026.txt`
+
+
+
+---
+
+## [27 Mars 2026] - Ajout du mode "Question Qcm" pour E-CIA Exam Part 1
+
+### Ajouté
+- Mode "Question Qcm" dans `ECIA_MODES`
+- Logique de remplacement automatique dans `handleModeClick`
+- Variable `finalRawCommand` pour gérer le remplacement
+- Script `add_qcm_mode_ecia_exam.py` pour automatiser les modifications
+- Documentation `AJOUT_MODE_QCM_E_CIA_EXAM_27_MARS_2026.md`
+- Fichier de démarrage rapide `00_AJOUT_MODE_QCM_E_CIA_EXAM_27_MARS_2026.txt`
+
+### Modifié
+- `ECIA_MODES` : Ajout du mode QCM
+- `handleModeClick` : Ajout de la logique de remplacement automatique
+- Utilisation de `finalRawCommand` au lieu de `rawCommand` dans `formatCommandWithBullets`
+
+### Fonctionnalité
+- Le mode "Question Qcm" utilise le même contenu que le mode "Cours"
+- Remplacement automatique : `[Command] = Cours CIA` → `[Command] = QCM CIA`
+- Détection basée sur `mode.id === 'qcm'`
+- Utilise une regex globale pour remplacer toutes les occurrences
+
+### Impact
+- E-CIA Exam Part 1 affiche maintenant 2 modes : Cours et Question Qcm
+- Le mode QCM génère automatiquement `[Command] = QCM CIA`
+- Pas de duplication des 45 commandes E-CIA (remplacement automatique)
+
+### Fichiers modifiés
+- `src/components/Clara_Components/DemarrerMenu.tsx`
+
+### Fichiers créés
+- `Doc menu demarrer/Scripts/add_qcm_mode_ecia_exam.py`
+- `Doc menu demarrer/Documentation/AJOUT_MODE_QCM_E_CIA_EXAM_27_MARS_2026.md`
+- `00_AJOUT_MODE_QCM_E_CIA_EXAM_27_MARS_2026.txt`
+

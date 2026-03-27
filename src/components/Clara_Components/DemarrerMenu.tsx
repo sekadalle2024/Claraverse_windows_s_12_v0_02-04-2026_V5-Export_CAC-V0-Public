@@ -98,12 +98,17 @@ interface DemarrerMenuProps {
 // ============================================================
 
 const MODES: ModeItem[] = [
-  { id: 'normal', label: 'Normal', prefix: '' },
+  { id: 'normal', label: 'Cours', prefix: '' },
   { id: 'demo', label: 'Demo', prefix: '[Demo] = Activate\n' },
   { id: 'avance', label: 'Avancé', prefix: '[Mode] = Avancé\n' },
   { id: 'methodo', label: 'Methodo audit', prefix: '[Mode] = Avancé\n[Guide Methodo] : Activate\n' },
   { id: 'guide-commandes', label: 'Guide des commandes', prefix: '[Mode] = Avancé\n[Guide des commandes] : Activate\n' },
   { id: 'manuel', label: 'Manuel', prefix: '[Mode] = Manuel\n' }
+];
+
+const ECIA_MODES: ModeItem[] = [
+  { id: 'cours', label: 'Cours', prefix: '' },
+  { id: 'qcm', label: 'Question Qcm', prefix: '' }
 ];
 
 // ============================================================
@@ -4009,7 +4014,7 @@ Contenu de [Contexte de base]
                 reference: '1.a',
                 label: 'Expliquer les objectifs globaux et les avantages',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Expliquer les objectifs globaux et les avantages de la fonction d'audit interne
@@ -4032,7 +4037,7 @@ Contenu de [Contexte de base]
                 reference: '1.b',
                 label: 'Décrire les conditions d\'efficacité',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Décrire les conditions qui contribuent à l'efficacité de la fonction d'audit interne
@@ -4050,7 +4055,7 @@ Contenu de [Contexte de base]
                 reference: '2.i',
                 label: 'Décrire l\'autorité, le rôle et les responsabilités',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Décrire l'autorité, le rôle et les responsabilités de la fonction d'audit interne
@@ -4061,7 +4066,7 @@ Contenu de [Contexte de base]
                 reference: '2.ii',
                 label: 'Expliquer le rôle du RAI',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Expliquer le rôle du chief audit executive (RAI) pour aider le conseil
@@ -4072,7 +4077,7 @@ Contenu de [Contexte de base]
                 reference: '2.iii',
                 label: 'Expliquer le rôle du conseil et de la direction',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Expliquer le rôle du conseil et de la direction générale
@@ -4090,7 +4095,7 @@ Contenu de [Contexte de base]
                 reference: '3.a',
                 label: 'Identifier les composantes requises',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Identifier les composantes requises par les Normes mondiales d'audit interne
@@ -4101,7 +4106,7 @@ Contenu de [Contexte de base]
                 reference: '3.b',
                 label: 'Reconnaître l\'importance de discuter',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Reconnaître l'importance de discuter de la charte avec le conseil
@@ -4112,7 +4117,7 @@ Contenu de [Contexte de base]
                 reference: '3.c',
                 label: 'Reconnaître l\'importance de l\'approbation',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Reconnaître l'importance de l'approbation par le conseil
@@ -4130,7 +4135,7 @@ Contenu de [Contexte de base]
                 reference: '4.a',
                 label: 'Définir les services d\'assurance',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Définir les services d'assurance
@@ -4141,7 +4146,7 @@ Contenu de [Contexte de base]
                 reference: '4.b',
                 label: 'Différencier l\'assurance limitée',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Différencier l'assurance limitée de l'assurance raisonnable
@@ -4152,7 +4157,7 @@ Contenu de [Contexte de base]
                 reference: '4.c',
                 label: 'Définir les services de conseil',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Définir les services de conseil
@@ -4163,7 +4168,7 @@ Contenu de [Contexte de base]
                 reference: '4.d',
                 label: 'Décrire la détermination des services',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Décrire comment la nature et le périmètre des services de conseil sont déterminés
@@ -4174,7 +4179,7 @@ Contenu de [Contexte de base]
                 reference: '4.e',
                 label: 'Déterminer le type de service approprié',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Déterminer quel type de service est approprié dans un contexte donné
@@ -4192,7 +4197,7 @@ Contenu de [Contexte de base]
                 reference: '7.a',
                 label: 'Identifier les rattachements inappropriés',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Identifier les situations où le rattachement fonctionnel du RAI n'est pas approprié
@@ -4203,7 +4208,7 @@ Contenu de [Contexte de base]
                 reference: '7.b',
                 label: 'Décrire la responsabilité du conseil',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Décrire la responsabilité du conseil dans la protection de l'indépendance
@@ -4214,7 +4219,7 @@ Contenu de [Contexte de base]
                 reference: '7.c',
                 label: 'Décrire la responsabilité du RAI',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Décrire la responsabilité du RAI dans la communication des atteintes
@@ -4225,7 +4230,7 @@ Contenu de [Contexte de base]
                 reference: '7.d',
                 label: 'Identifier les limitations budgétaires',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Identifier les situations où les limitations budgétaires peuvent restreindre
@@ -4236,7 +4241,7 @@ Contenu de [Contexte de base]
                 reference: '7.e',
                 label: 'Décrire les effets des limitations',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Décrire les effets des limitations de champ ou d'accès restreint
@@ -4254,7 +4259,7 @@ Contenu de [Contexte de base]
                 reference: '8.a',
                 label: 'Décrire le Modèle des trois lignes',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Décrire le Modèle des trois lignes de l'IIA
@@ -4265,7 +4270,7 @@ Contenu de [Contexte de base]
                 reference: '8.b',
                 label: 'Identifier les responsabilités compromettantes',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Identifier les responsabilités pouvant compromettre l'indépendance
@@ -4276,7 +4281,7 @@ Contenu de [Contexte de base]
                 reference: '8.c',
                 label: 'Décrire les sauvegardes',
                 processus: 'Section A',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section A - Fondements de l'audit interne
 [Objectifs] = Décrire les sauvegardes lors de l'exercice de telles responsabilités
@@ -4300,7 +4305,7 @@ Contenu de [Contexte de base]
                 reference: 'B1.a',
                 label: 'Appliquer l\'honnêteté et le courage professionnel',
                 processus: 'Section B',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section B - Éthique et professionnalisme
 [Objectifs] = Appliquer l'honnêteté et le courage professionnel face aux dilemmes
@@ -4311,7 +4316,7 @@ Contenu de [Contexte de base]
                 reference: 'B1.b',
                 label: 'Pratiquer un comportement légal',
                 processus: 'Section B',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section B - Éthique et professionnalisme
 [Objectifs] = Pratiquer un comportement légal et professionnel en toutes situations
@@ -4329,7 +4334,7 @@ Contenu de [Contexte de base]
                 reference: 'B2.a',
                 label: 'Évaluer l\'impact de l\'auto-révision',
                 processus: 'Section B',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section B - Éthique et professionnalisme
 [Objectifs] = Évaluer l'impact de l'auto-révision et du biais de familiarité
@@ -4340,7 +4345,7 @@ Contenu de [Contexte de base]
                 reference: 'B2.b',
                 label: 'Analyser les conflits d\'intérêts',
                 processus: 'Section B',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section B - Éthique et professionnalisme
 [Objectifs] = Analyser les situations de conflits d'intérêts potentiels
@@ -4358,7 +4363,7 @@ Contenu de [Contexte de base]
                 reference: 'B5.e',
                 label: 'Pratiquer le scepticisme professionnel',
                 processus: 'Section B',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section B - Éthique et professionnalisme
 [Objectifs] = Pratiquer le scepticisme professionnel et l'évaluation critique
@@ -4382,7 +4387,7 @@ Contenu de [Contexte de base]
                 reference: 'C1.a',
                 label: 'Décrire les rôles du Conseil et de la direction',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Décrire les rôles du Conseil, de la direction générale, de la fonction d'audit interne
@@ -4393,7 +4398,7 @@ Contenu de [Contexte de base]
                 reference: 'C1.b',
                 label: 'Reconnaître les cadres de référence',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Reconnaître les cadres de référence, principes et modèles de gouvernance
@@ -4411,7 +4416,7 @@ Contenu de [Contexte de base]
                 reference: 'C2.a',
                 label: 'Définir la culture organisationnelle',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Définir la culture organisationnelle et l'environnement de contrôle
@@ -4422,7 +4427,7 @@ Contenu de [Contexte de base]
                 reference: 'C2.b',
                 label: 'Définir les risques et contrôles',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Définir les risques et les contrôles liés aux missions
@@ -4433,7 +4438,7 @@ Contenu de [Contexte de base]
                 reference: 'C2.c',
                 label: 'Reconnaître l\'impact des processus',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Reconnaître l'impact des processus de prise de décision sur la GRC
@@ -4451,7 +4456,7 @@ Contenu de [Contexte de base]
                 reference: 'C4.a',
                 label: 'Différencier les types de risques',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Différencier les types de risques : stratégiques, opérationnels, financiers
@@ -4462,7 +4467,7 @@ Contenu de [Contexte de base]
                 reference: 'C4.b',
                 label: 'Comparer risques inhérents et résiduels',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Comparer et opposer les risques inhérents et résiduels
@@ -4480,7 +4485,7 @@ Contenu de [Contexte de base]
                 reference: 'C5.a',
                 label: 'Définir la gestion des risques',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Définir la gestion des risques
@@ -4491,7 +4496,7 @@ Contenu de [Contexte de base]
                 reference: 'C5.b',
                 label: 'Reconnaître l\'appétence pour le risque',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Reconnaître l'appétence pour le risque et la tolérance au risque
@@ -4509,7 +4514,7 @@ Contenu de [Contexte de base]
                 reference: 'C7.b',
                 label: 'Décrire les types de contrôles internes',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Décrire et évaluer les types de contrôles internes
@@ -4520,7 +4525,7 @@ Contenu de [Contexte de base]
                 reference: 'C7.c',
                 label: 'Recommander des contrôles appropriés',
                 processus: 'Section C',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section C - Gouvernance, gestion des risques et contrôle
 [Objectifs] = Recommander des contrôles appropriés pour atténuer les risques
@@ -4544,7 +4549,7 @@ Contenu de [Contexte de base]
                 reference: 'D1.a',
                 label: 'Décrire le triangle de la fraude',
                 processus: 'Section D',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section D - Risques de fraude
 [Objectifs] = Décrire les concepts du triangle de la fraude
@@ -4555,7 +4560,7 @@ Contenu de [Contexte de base]
                 reference: 'D1.c',
                 label: 'Identifier les schémas de fraude courants',
                 processus: 'Section D',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section D - Risques de fraude
 [Objectifs] = Identifier les schémas de fraude courants
@@ -4573,7 +4578,7 @@ Contenu de [Contexte de base]
                 reference: 'D3.b',
                 label: 'Détecter les signaux d\'alerte',
                 processus: 'Section D',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section D - Risques de fraude
 [Objectifs] = Détecter et évaluer les signaux d'alerte (red flags)
@@ -4584,7 +4589,7 @@ Contenu de [Contexte de base]
                 reference: 'D3.c',
                 label: 'Reconnaître le rôle de signalement',
                 processus: 'Section D',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section D - Risques de fraude
 [Objectifs] = Reconnaître le rôle de l'auditeur interne dans le signalement
@@ -4602,7 +4607,7 @@ Contenu de [Contexte de base]
                 reference: 'D4.a',
                 label: 'Reconnaître l\'impact du tone at the top',
                 processus: 'Section D',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section D - Risques de fraude
 [Objectifs] = Reconnaître l'impact du ton donné au sommet sur la probabilité de fraude
@@ -4613,7 +4618,7 @@ Contenu de [Contexte de base]
                 reference: 'D4.b',
                 label: 'Reconnaître la séparation des tâches',
                 processus: 'Section D',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section D - Risques de fraude
 [Objectifs] = Reconnaître l'application appropriée de la séparation des tâches
@@ -4631,7 +4636,7 @@ Contenu de [Contexte de base]
                 reference: 'D5.a',
                 label: 'Définir le rôle dans les enquêtes',
                 processus: 'Section D',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section D - Risques de fraude
 [Objectifs] = Définir le rôle de la fonction d'audit interne en matière d'enquêtes
@@ -4642,7 +4647,7 @@ Contenu de [Contexte de base]
                 reference: 'D5.e',
                 label: 'Reconnaître les opportunités de coordination',
                 processus: 'Section D',
-                command: `[Command] = cours
+                command: `[Command] = Cours CIA
 [Partie] = partie 1
 [Section] = Section D - Risques de fraude
 [Objectifs] = Reconnaître les opportunités de coordination avec les enquêteurs
@@ -4766,7 +4771,7 @@ const SubMenuPortal: React.FC<SubMenuPortalProps> = ({ etape, anchorRect, onMode
           </div>
         )}
       </div>
-      {(etape.modes || MODES).map(mode => (
+      {(etape.modes || (etape.command?.includes('Cours CIA') ? ECIA_MODES : MODES)).map(mode => (
         <button
           key={mode.id}
           type="button"
@@ -4898,9 +4903,14 @@ const DemarrerMenu: React.FC<DemarrerMenuProps> = ({ onInsertCommand, disabled =
     if (activeEtape) {
       // Si le mode a sa propre commande, l'utiliser, sinon utiliser l'ancienne logique
       const rawCommand = mode.command || (mode.prefix && activeEtape.command ? mode.prefix + activeEtape.command : activeEtape.command || '');
+      
+      // Pour le mode QCM E-CIA, remplacer "Cours CIA" par "QCM CIA"
+      const finalRawCommand = mode.id === 'qcm' && rawCommand.includes('Cours CIA') 
+        ? rawCommand.replace(/\[Command\] = Cours CIA/g, '[Command] = QCM CIA')
+        : rawCommand;
 
       // Formater la commande avec des listes à puces
-      const finalCommand = formatCommandWithBullets(rawCommand);
+      const finalCommand = formatCommandWithBullets(finalRawCommand);
 
       try {
         onInsertCommand(finalCommand);

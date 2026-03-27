@@ -1,7 +1,7 @@
 # Index Complet - Documentation Menu Démarrer
 
 **Date de création** : 27 Mars 2026  
-**Dernière mise à jour** : 27 Mars 2026  
+**Dernière mise à jour** : 27 Mars 2026 (Ajout modification E-CIA Exam)  
 **Statut** : ✅ Complet
 
 ---
@@ -47,6 +47,7 @@ Doc menu demarrer/
 │   ├── RECAP_COMPLET_AJOUT_MODES_27_MARS_2026.md
 │   ├── INDEX_AJOUT_MODES_27_MARS_2026.md
 │   ├── MODIFICATIONS_MODES_MENU_DEMARRER.md
+│   ├── MODIFICATION_E_CIA_EXAM_27_MARS_2026.md (NOUVEAU)
 │   ├── STATUT_FINAL_AJOUT_MODES.txt
 │   ├── PROGRESSION_AJOUT_MODES.txt
 │   ├── PLAN_AJOUT_MODES_COMPLET.md
@@ -64,7 +65,8 @@ Doc menu demarrer/
 │   ├── add_e_revision_modes.py
 │   ├── add_final_modes.py
 │   ├── add_analyse_variations.py
-│   └── add_synthese_mission_modes.py
+│   ├── add_synthese_mission_modes.py
+│   └── update_ecia_exam_part1.py (NOUVEAU)
 │
 └── Architecture/
     ├── ARCHITECTURE_MENU_DEMARRER.md
@@ -174,6 +176,24 @@ Doc menu demarrer/
 - **Format** : Markdown
 - **Public** : Tous les utilisateurs
 
+#### MODIFICATION_E_CIA_EXAM_27_MARS_2026.md
+- **Type** : Documentation de modification
+- **Priorité** : ⭐⭐
+- **Contenu** : Documentation complète de la modification E-CIA Exam Part 1
+- **Taille** : ~400 lignes
+- **Format** : Markdown
+- **Public** : Tous les utilisateurs
+- **Sections** :
+  - Objectif
+  - Modifications effectuées
+  - Statistiques
+  - Méthode utilisée
+  - Vérifications
+  - Impact sur l'interface
+  - Exemple de commande
+  - Points d'attention
+  - Prochaines étapes
+
 ---
 
 ### Dossier Guides/
@@ -266,6 +286,16 @@ Doc menu demarrer/
 - **Taille** : ~150 lignes
 - **Étapes traitées** : Recos revision, Recos CI, Rapport synthèse CAC
 
+#### update_ecia_exam_part1.py
+- **Type** : Script Python
+- **Priorité** : ⭐⭐
+- **Contenu** : Script pour mettre à jour E-CIA Exam Part 1
+- **Taille** : ~80 lignes
+- **Modifications** : 
+  - Renommer mode "Normal" en "Cours"
+  - Remplacer "[Command] = cours" par "[Command] = Cours CIA"
+- **Occurrences traitées** : 45 commandes
+
 ---
 
 ### Dossier Architecture/
@@ -357,11 +387,11 @@ Doc menu demarrer/
 ### Fichiers par catégorie
 | Catégorie | Nombre de fichiers | Taille totale |
 |-----------|-------------------|---------------|
-| Documentation | 10 | ~2000 lignes |
+| Documentation | 11 | ~2400 lignes |
 | Guides | 1 | ~300 lignes |
-| Scripts | 9 (8 Python + 1 doc) | ~1200 lignes |
+| Scripts | 10 (9 Python + 1 doc) | ~1280 lignes |
 | Architecture | 3 | ~1700 lignes |
-| **Total** | **23** | **~5200 lignes** |
+| **Total** | **25** | **~5680 lignes** |
 
 ### Fichiers par priorité
 | Priorité | Nombre de fichiers |
